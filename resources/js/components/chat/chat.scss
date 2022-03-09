@@ -1,0 +1,41 @@
+$chat-user-account-choose-icon-size: 20px;
+.chat-cover{
+    border: 1px solid #dbdbdb;
+    border-radius: 4px ;
+    display: flex;
+    background-color: #fff;
+}
+.chat{
+    &-user-account{
+        width: 40%;
+        background-color: #fff;
+        height: 541px;
+        &-choose{
+            height: 60px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            padding-left: 90px;
+            justify-content: space-around;
+            border-bottom: 1px solid #dbdbdb;
+            &-cover-left{
+                display:flex;
+                align-items:center;
+                    &-icon{
+                        font-size:$chat-user-account-choose-icon-size;
+                        margin-left:10px;
+                    }
+            }
+            &-right{
+                font-size: $chat-user-account-choose-icon-size;
+            }
+
+        }
+    }
+    &-chat-data{
+        width: 60%;
+        background-color: gainsboro;
+        height: 541px;
+
+    }
+}
