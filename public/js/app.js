@@ -5609,10 +5609,7 @@ function Chat_User_Account_Screen() {
       loading = _useState8[0],
       setLoading = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
-      _useState10 = _slicedToArray(_useState9, 2),
-      start = _useState10[0],
-      setStart = _useState10[1]; // useLayoutEffect(() => {
+  var ref_start = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(0); // useLayoutEffect(() => {
   //     setLoading(true);
   //     const calldata = async () => await api.get('/photos',{
   //         params: {
@@ -5629,10 +5626,8 @@ function Chat_User_Account_Screen() {
   //     console.log("use Layout Effect");
   // }, [start])
 
-
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    setLoading(true);
-    console.log("use Effect");
+    console.log("use Effect lần đầu để gọi dữ liệu start = 0 :v");
 
     var calldata = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -5644,10 +5639,9 @@ function Chat_User_Account_Screen() {
                 return api.get('/photos', {
                   params: {
                     _limit: 7,
-                    _start: start
+                    _start: 0
                   }
                 }).then(function (res) {
-                  // console.log([...chat_friend,...res.data])
                   setChat_Friend(function (prev) {
                     return [].concat(_toConsumableArray(prev), _toConsumableArray(res.data));
                   });
@@ -5670,17 +5664,57 @@ function Chat_User_Account_Screen() {
       };
     }();
 
-    calldata(); // console.log("use Layout Effect");
-  }, [start]);
-  var hanldeListScroll = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (el) {
+    calldata();
+  }, []); // Call data lần đầu 
+
+  var hanldeListScroll = function hanldeListScroll(el) {
     var e = el.target;
 
     if (e.scrollHeight - e.scrollTop === e.clientHeight) {
-      setStart(function (prev) {
-        return prev + 7;
-      });
+      ref_start.current += 7;
+      callbackk(ref_start.current);
     }
-  });
+  };
+
+  var callbackk = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (start_value) {
+    console.log("trước render start_value = " + start_value);
+
+    var calldata = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return api.get('/photos', {
+                  params: {
+                    _limit: 7,
+                    _start: start_value
+                  }
+                }).then(function (res) {
+                  setChat_Friend(function (prev) {
+                    return [].concat(_toConsumableArray(prev), _toConsumableArray(res.data));
+                  });
+                });
+
+              case 2:
+                return _context3.abrupt("return", _context3.sent);
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function calldata() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    calldata();
+  }, []);
 
   if (loading) {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(LoadScreen, {});

@@ -75,8 +75,7 @@ function Chat_User_Account_Screen() {
 
     const [chat_friend, setChat_Friend] = useState([]);
     const [loading,setLoading] = useState(true);
-    const [start,setStart] = useState(0);
-
+    const ref_start = useRef(0);
     // useLayoutEffect(() => {
     //     setLoading(true);
 
@@ -96,31 +95,42 @@ function Chat_User_Account_Screen() {
     // }, [start])
 
     useEffect(()=>{
-        setLoading(true);
-        console.log("use Effect");
+        console.log("use Effect lần đầu để gọi dữ liệu start = 0 :v");
         const calldata = async () => await api.get('/photos',{
             params: {
                 _limit:7,
-                _start:start
+                _start:0
             }
         })
             .then((res) => {
-                // console.log([...chat_friend,...res.data])
                 setChat_Friend((prev)=> [...prev,...res.data] );                
                 setLoading(false);
             })
         calldata();
-        // console.log("use Layout Effect");
-    },[start])
+    },[]) // Call data lần đầu 
 
-   const hanldeListScroll = useCallback((el)=>{
+   const hanldeListScroll = ((el)=>{
    const e = el.target;
     if (e.scrollHeight - e.scrollTop === e.clientHeight)
     {
-        setStart((prev)=> prev +7);
+        ref_start.current +=7;
+        callbackk(ref_start.current);
     }
    })
 
+   const callbackk = useCallback((start_value)=>{
+       console.log("trước render start_value = "+start_value);
+    const calldata = async () => await api.get('/photos',{
+        params: {
+            _limit:7,
+            _start:start_value
+        }
+    })
+        .then((res) => {
+            setChat_Friend((prev)=> [...prev,...res.data] );                
+        })
+    calldata();
+   },[])
     
 
    if(loading){
