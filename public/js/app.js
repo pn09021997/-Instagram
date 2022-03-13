@@ -5677,8 +5677,6 @@ function Chat_User_Account_Screen() {
   };
 
   var callbackk = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(function (start_value) {
-    console.log("trước render start_value = " + start_value);
-
     var calldata = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
@@ -5719,7 +5717,7 @@ function Chat_User_Account_Screen() {
   if (loading) {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(LoadScreen, {});
   } else {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
       onScroll: hanldeListScroll,
       style: {
         margin: '0',
@@ -5727,7 +5725,7 @@ function Chat_User_Account_Screen() {
         height: '465px',
         overflowY: 'scroll'
       },
-      children: [console.log("render "), chat_friend.map(function (el) {
+      children: chat_friend.map(function (el) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
           style: {
             height: '72px',
@@ -5744,7 +5742,8 @@ function Chat_User_Account_Screen() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             style: {
               margin: '0px 16px',
-              padding: '12px 0'
+              padding: '12px 0',
+              width: '100%'
             },
             className: "cover-chat-friend-name",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
@@ -5754,23 +5753,32 @@ function Chat_User_Account_Screen() {
               },
               className: "name-chat",
               children: [" ", el.albumId, " "]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
               style: {
+                display: 'flex',
                 fontSize: '14px',
                 lineHeight: '18px',
                 color: 'gray'
               },
               className: "last-chat",
-              children: ["  ", text_truncate(el.title), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
                 style: {
-                  margin: '0 12px'
+                  display: 'block',
+                  width: '80%'
+                },
+                children: [text_truncate(el.title), " "]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                style: {
+                  display: 'block',
+                  width: '17%',
+                  margin: '0 3%'
                 },
                 children: " 1 tu\u1EA7n "
-              }), "  "]
+              })]
             })]
           })]
         }, el.id);
-      })]
+      })
     });
   }
 }

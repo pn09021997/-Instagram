@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useLayoutEffect,useRef, useCallback } from "react";
+import { React, useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { FaAngleDown } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
@@ -74,7 +74,7 @@ function Chat_User_Account_Screen() {
 
 
     const [chat_friend, setChat_Friend] = useState([]);
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const ref_start = useRef(0);
     // useLayoutEffect(() => {
     //     setLoading(true);
@@ -94,82 +94,78 @@ function Chat_User_Account_Screen() {
     //     console.log("use Layout Effect");
     // }, [start])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("use Effect lần đầu để gọi dữ liệu start = 0 :v");
-        const calldata = async () => await api.get('/photos',{
+        const calldata = async () => await api.get('/photos', {
             params: {
-                _limit:7,
-                _start:0
+                _limit: 7,
+                _start: 0
             }
         })
             .then((res) => {
-                setChat_Friend((prev)=> [...prev,...res.data] );                
+                setChat_Friend((prev) => [...prev, ...res.data]);
                 setLoading(false);
             })
         calldata();
-    },[]) // Call data lần đầu 
+    }, []) // Call data lần đầu 
 
-   const hanldeListScroll = ((el)=>{
-   const e = el.target;
-    if (e.scrollHeight - e.scrollTop === e.clientHeight)
-    {
-        ref_start.current +=7;
-        callbackk(ref_start.current);
-    }
-   })
-
-   const callbackk = useCallback((start_value)=>{
-       console.log("trước render start_value = "+start_value);
-    const calldata = async () => await api.get('/photos',{
-        params: {
-            _limit:7,
-            _start:start_value
+    const hanldeListScroll = ((el) => {
+        const e = el.target;
+        if (e.scrollHeight - e.scrollTop === e.clientHeight) {
+            ref_start.current += 7;
+            callbackk(ref_start.current);
         }
     })
-        .then((res) => {
-            setChat_Friend((prev)=> [...prev,...res.data] );                
+
+    const callbackk = useCallback((start_value) => {
+        const calldata = async () => await api.get('/photos', {
+            params: {
+                _limit: 7,
+                _start: start_value
+            }
         })
-    calldata();
-   },[])
-    
+            .then((res) => {
+                setChat_Friend((prev) => [...prev, ...res.data]);
+            })
+        calldata();
+    }, [])
 
-   if(loading){
-    return    <LoadScreen />
-   }else
-   {
-       return (
-           
 
-           <ul onScroll={hanldeListScroll} style={{ margin:'0',padding:'0.5rem',height : '465px', overflowY : 'scroll'}}>
-               {console.log("render ")}
-               {chat_friend.map((el) => {
-                   
-                  return <li style={{height:'72px',display:'flex',listStyle:'none'}} key={el.id}> 
-                  <img style={{width:'56px',height: '56px',borderRadius:'50%'}} src={el.thumbnailUrl} />
-                   <div style={{margin:'0px 16px',padding:'12px 0'}} className="cover-chat-friend-name">
-                        <p style={{fontSize:'16px',lineHeight:'10px'}} className="name-chat"> {el.albumId} </p>
-                        <p style={{fontSize:'14px',lineHeight:'18px',color:'gray'}} className="last-chat" >  {text_truncate(el.title)} <span style={{margin:'0 12px'}} > 1 tuần </span>  </p>
-                   </div>
-                   </li>
-               })}
-           </ul>
-           
-           
-       );
-   }
-    
+    if (loading) {
+        return <LoadScreen />
+    } else {
+        return (
+            <ul onScroll={hanldeListScroll} style={{ margin: '0', padding: '0.5rem', height: '465px', overflowY: 'scroll' }}>
+                {chat_friend.map((el) => {
+                    return <li style={{ height: '72px', display: 'flex', listStyle: 'none' }} key={el.id}>
+                        <img style={{ width: '56px', height: '56px', borderRadius: '50%' }} src={el.thumbnailUrl} />
+                        <div style={{ margin: '0px 16px', padding: '12px 0', width: '100%' }} className="cover-chat-friend-name">
+                            <p style={{ fontSize: '16px', lineHeight: '10px' }} className="name-chat"> {el.albumId} </p>
+                            <div style={{ display: 'flex', fontSize: '14px', lineHeight: '18px', color: 'gray' }} className="last-chat" >
+                                <span style={{ display: 'block', width: '80%' }}>{text_truncate(el.title)} </span>
+                                <span style={{ display: 'block', width: '17%', margin: '0 3%' }} > 1 tuần </span>
+                            </div>
+                        </div>
+                    </li>
+                })}
+            </ul>
+
+
+        );
+    }
+
 }
 
-function text_truncate(str, length, ending){
+function text_truncate(str, length, ending) {
     if (length == null) {
         length = 30;
-      }
-      if (ending == null) {
+    }
+    if (ending == null) {
         ending = '...';
-      }
-      if (str.length > length) {
+    }
+    if (str.length > length) {
         return str.substring(0, length - ending.length) + ending;
-      } else {
+    } else {
         return str;
-      }
+    }
 }
